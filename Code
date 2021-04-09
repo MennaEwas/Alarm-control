@@ -1,0 +1,80 @@
+int pin3 = 3; 
+int pin4 = 4; 
+
+int pin5 = 5; 
+int pin6 = 6; 
+
+int pin7 = 7; 
+int pin8 = 8; 
+
+
+int buzzer = 9; 
+int button = 2;
+int pot = A0; //Analog pin
+
+int i =0;
+void setup(){
+// put your setup here
+  pinMode(pin3, OUTPUT); 
+  pinMode(pin4, OUTPUT);
+  
+  pinMode(pin5, OUTPUT);
+  pinMode(pin6, OUTPUT);
+  
+  pinMode(pin7, OUTPUT);
+  pinMode(pin8, OUTPUT);
+  
+  pinMode(button, INPUT);
+  pinMode(pot, INPUT); //AnalogRead and Write 
+  
+  pinMode(buzzer, OUTPUT);  
+  Serial.begin(9600);
+}
+void loop(){
+// main code
+  int button_st = digitalRead(button); //read from the button state
+  int potvalue = analogRead(pot); //write depending on this value 
+  
+  //digitalWrite(buzzer, button_st);
+ 
+
+  if (button_st == 1){
+   
+      // read the buzzer thing and adjust period 
+      i = 0;
+      do{
+      
+      i++;
+      
+      tone(buzzer,450);
+      delay(potvalue);//time increases and decreases using pot
+      noTone(buzzer); 
+      delay(potvalue); }while (i < 3);
+      //delay(potvalue); //Speed increases and decreases using pot
+ 
+  }
+  
+  // start working while the button is on according to the pot 
+  if (button_st == 0){
+      Serial.print(potvalue);
+      Serial.print(" ");
+      Serial.print(button_st);
+      Serial.println();
+      digitalWrite(pin8, HIGH);
+    digitalWrite(pin7, HIGH);
+    digitalWrite(pin6, HIGH);
+    digitalWrite(pin5, HIGH);
+    digitalWrite(pin4, HIGH);
+    digitalWrite(pin3, HIGH);
+      if (potvalue <= 170){digitalWrite(pin8, LOW);}
+      if (potvalue <= 341){digitalWrite(pin7, LOW);}
+      if (potvalue <= 512){digitalWrite(pin6, LOW);}
+      if (potvalue<= 682){digitalWrite(pin5, LOW);}
+      if (potvalue <= 853){digitalWrite(pin4, LOW);}
+      if (potvalue < 1023){digitalWrite(pin3, LOW);}
+    
+  }
+   // it should be in the led
+  //delay(potvalue); // this delay is nothing
+  //potvalue = analogRead(pot)
+}
